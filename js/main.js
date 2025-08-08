@@ -1,14 +1,35 @@
 jQuery(document).ready(function () {
   // startOwlSlider();
-  setHamburgerActiveToggle();
+
   initInView(); // Call our inView initialization function
   initHeroSliderTwoCols();
   initProjectsCarousel();
+  initializeTextSlider();
 });
 jQuery(window).scroll(function () {
   // hideOnScroll();
 });
 jQuery(window).resize(function () {});
+
+jQuery(document).ready(function ($) {
+  if ($(window).width() >= 576) {
+    $('[data-fancybox="gallery"]').fancybox({
+      loop: true,
+      buttons: ["zoom", "slideShow", "thumbs", "close"],
+      caption: function () {
+        return ""; // no captions
+      },
+    });
+  } else {
+    // Optional: remove the links on mobile so images aren't clickable
+    $('[data-fancybox="gallery"]')
+      .removeAttr("data-fancybox")
+      .each(function () {
+        var $img = $(this).find("img");
+        $(this).replaceWith($img); // replace <a> with the image
+      });
+  }
+});
 
 function setHamburgerActiveToggle() {
   jQuery(".hamburger").on("click", function () {
@@ -84,6 +105,68 @@ function initProjectsCarousel() {
 `,
     ],
   });
+}
+function initializeTextSlider() {
+  jQuery(function ($) {
+    $(".text-slider__slider-container.owl-carousel").owlCarousel({
+      items: 1,
+      loop: true,
+      nav: false,
+      dots: true,
+      autoplay: true,
+      autoplayTimeout: 5000,
+      navText: [
+        '<span class="owl-prev">‹</span>',
+        '<span class="owl-next">›</span>',
+      ],
+    });
+  });
+}
+function initHeroSliderTwoCols() {
+  const $carousel = jQuery(".hero-slider_two_cols .owl-carousel");
+  const isMobile = window.innerWidth < 768;
+  let direction = "next";
+
+  if ($carousel.length === 0) return; // Safety check
+
+  $carousel.owlCarousel({
+    items: 2,
+    loop: false,
+    autoplay: false,
+    smartSpeed: 800,
+    nav: false,
+    dots: false,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      768: {
+        items: 2,
+      },
+    },
+  });
+
+  if (isMobile) {
+    setInterval(function () {
+      const $activeItems = $carousel.find(".owl-item.active");
+      const current = $activeItems.first().index();
+      const total = $carousel.find(".owl-item").length;
+
+      // Decide direction
+      if (current === 0) {
+        direction = "next";
+      } else if (current === total - 1) {
+        direction = "prev";
+      }
+
+      // Trigger next or prev
+      if (direction === "next") {
+        $carousel.trigger("next.owl.carousel");
+      } else {
+        $carousel.trigger("prev.owl.carousel");
+      }
+    }, 5000);
+  }
 }
 
 // AJAX FILTERS
@@ -189,124 +272,89 @@ function setOnBtnAjaxFilter() {
 function initInView() {
   // Check if inView is available (library loaded)
   if (typeof inView !== "undefined") {
-    // FADE IN FROM BOTTOM (original)
-    inView(".fade-in-on-scroll").on("enter", function (el) {
-      console.log("Fade in element entered view:", el);
-      el.classList.add("in-view");
-    });
+    // Helper to set enter/exit behavior
+    function setInView(selector) {
+      inView(selector)
+        .on("enter", function (el) {
+          el.classList.add("in-view");
 
-    // SLIDE IN FROM LEFT
-    inView(".slide-left-on-scroll").on("enter", function (el) {
-      console.log("Slide left element entered view:", el);
-      el.classList.add("in-view");
-    });
+          if (el.classList.contains("count-on-scroll")) {
+            animateCountUp(el);
+          }
+        })
+        .on("exit", function (el) {
+          el.classList.remove("in-view");
 
-    // SLIDE IN FROM RIGHT
-    inView(".slide-right-on-scroll").on("enter", function (el) {
-      console.log("Slide right element entered view:", el);
-      el.classList.add("in-view");
-    });
+          if (el.classList.contains("count-on-scroll")) {
+            resetCounters(el);
+          }
+        });
+    }
 
-    // SCALE UP ANIMATION
-    inView(".scale-up-on-scroll").on("enter", function (el) {
-      console.log("Scale up element entered view:", el);
-      el.classList.add("in-view");
-    });
+    // Apply to all your animations
+    setInView(".fade-in-on-scroll");
+    setInView(".slide-left-on-scroll");
+    setInView(".slide-right-on-scroll");
+    setInView(".scale-up-on-scroll");
+    setInView(".rotate-in-on-scroll");
+    setInView(".bounce-in-on-scroll");
+    setInView(".flip-in-on-scroll");
+    setInView(".typewriter-on-scroll");
+    setInView(".delayed-on-scroll");
+    setInView(".count-on-scroll");
 
-    // ROTATE IN ANIMATION
-    inView(".rotate-in-on-scroll").on("enter", function (el) {
-      console.log("Rotate in element entered view:", el);
-      el.classList.add("in-view");
-    });
-
-    // STAGGER ANIMATION (for multiple elements)
-    inView(".stagger-on-scroll").on("enter", function (el) {
-      console.log("Stagger element entered view:", el);
-
-      // Find all child elements to stagger
-      var children = el.querySelectorAll(".stagger-item");
-      children.forEach(function (child, index) {
-        setTimeout(function () {
-          child.classList.add("in-view");
-        }, index * 100); // 100ms delay between each item
+    // For staggered items
+    inView(".stagger-on-scroll")
+      .on("enter", function (el) {
+        var children = el.querySelectorAll(".stagger-item");
+        children.forEach(function (child, index) {
+          setTimeout(function () {
+            child.classList.add("in-view");
+          }, index * 100);
+        });
+      })
+      .on("exit", function (el) {
+        // Reset staggered items
+        var children = el.querySelectorAll(".stagger-item");
+        children.forEach(function (child) {
+          child.classList.remove("in-view");
+        });
       });
-    });
-
-    // BOUNCE IN ANIMATION
-    inView(".bounce-in-on-scroll").on("enter", function (el) {
-      console.log("Bounce in element entered view:", el);
-      el.classList.add("in-view");
-    });
-
-    // FLIP IN ANIMATION
-    inView(".flip-in-on-scroll").on("enter", function (el) {
-      console.log("Flip in element entered view:", el);
-      el.classList.add("in-view");
-    });
-
-    // TYPEWRITER EFFECT
-    inView(".typewriter-on-scroll").on("enter", function (el) {
-      console.log("Typewriter element entered view:", el);
-      el.classList.add("in-view");
-    });
-
-    // DELAYED ANIMATION (appears after a delay)
-    inView(".delayed-on-scroll").on("enter", function (el) {
-      console.log("Delayed element entered view:", el);
-      setTimeout(function () {
-        el.classList.add("in-view");
-      }, 500); // 500ms delay
-    });
 
     console.log("All inView listeners set up successfully");
   } else {
     console.error("inView library not loaded");
     fallbackScrollAnimation();
   }
-}
-function initHeroSliderTwoCols() {
-  const $carousel = jQuery(".hero-slider_two_cols .owl-carousel");
-  const isMobile = window.innerWidth < 768;
-  let direction = "next";
+  function animateCountUp(element) {
+    const counters = element.querySelectorAll(".animated-number");
 
-  if ($carousel.length === 0) return; // Safety check
+    counters.forEach((counter) => {
+      const target = +counter.getAttribute("data-target");
+      const duration = 1500;
+      const frameRate = 30;
+      const steps = Math.ceil(duration / frameRate);
+      let current = 0;
+      const increment = target / steps;
 
-  $carousel.owlCarousel({
-    items: 2,
-    loop: false,
-    autoplay: false,
-    smartSpeed: 800,
-    nav: false,
-    dots: false,
-    responsive: {
-      0: {
-        items: 1,
-      },
-      768: {
-        items: 2,
-      },
-    },
-  });
-
-  if (isMobile) {
-    setInterval(function () {
-      const $activeItems = $carousel.find(".owl-item.active");
-      const current = $activeItems.first().index();
-      const total = $carousel.find(".owl-item").length;
-
-      // Decide direction
-      if (current === 0) {
-        direction = "next";
-      } else if (current === total - 1) {
-        direction = "prev";
+      function updateCounter() {
+        current += increment;
+        if (current >= target) {
+          counter.textContent = target;
+        } else {
+          counter.textContent = Math.floor(current);
+          setTimeout(updateCounter, frameRate);
+        }
       }
 
-      // Trigger next or prev
-      if (direction === "next") {
-        $carousel.trigger("next.owl.carousel");
-      } else {
-        $carousel.trigger("prev.owl.carousel");
-      }
-    }, 5000);
+      updateCounter();
+    });
+  }
+
+  function resetCounters(element) {
+    const counters = element.querySelectorAll(".animated-number");
+    counters.forEach((counter) => {
+      counter.textContent = "0";
+    });
   }
 }

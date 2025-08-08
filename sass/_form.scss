@@ -1,0 +1,80 @@
+#gform_fields_1 {
+  row-gap: 15px !important;
+  input {
+    font-family: $font2 !important;
+    font-weight: 100 !important;
+    font-size: 16px !important;
+    border-radius: 0px !important;
+    @media screen and (max-width: 576px) {
+      font-weight: 200 !important;
+    }
+  }
+  label {
+    color: white;
+    font-family: $font2 !important;
+    font-weight: 100 !important;
+    font-size: 16px !important;
+    a {
+      color: $color1 !important;
+      text-decoration: none !important;
+    }
+  }
+}
+
+#gform_submit_button_1 {
+  background-color: $color1 !important;
+  border-radius: 0px !important;
+  font-family: $font2 !important;
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  padding: 15px 22px !important;
+  @media screen and (max-width: 768px) {
+    font-weight: 16px !important;
+  }
+}
+.gform_validation_errors {
+  display: none !important;
+}
+/* 1. Submit Buttons */
+body .gform_wrapper .gform_footer input[type="submit"],
+body .gform_wrapper .gform_footer button {
+  background-color: $color1 !important;
+  border-color: $color1 !important;
+  color: white !important;
+}
+
+/* 2. Input, Textarea, Select Focus Borders */
+body .gform_wrapper .gform_body input:focus,
+body .gform_wrapper .gform_body textarea:focus,
+body .gform_wrapper .gform_body select:focus {
+  border-color: $color1 !important;
+  box-shadow: 0 0 0 1px $color1 !important;
+  outline: none !important;
+}
+
+/* 3. Input Default Borders */
+body .gform_wrapper .gform_body input,
+body .gform_wrapper .gform_body textarea,
+body .gform_wrapper .gform_body select {
+  border: 1px solid black !important;
+}
+
+/* 4. Checkboxes & Radio Buttons (cross-browser) */
+body .gform_wrapper input[type="checkbox"],
+body .gform_wrapper input[type="radio"] {
+  accent-color: $color1 !important; /* modern browsers */
+}
+
+/* 5. Placeholder styling */
+body .gform_wrapper input::placeholder,
+body .gform_wrapper textarea::placeholder {
+  color: rgba(0, 0, 0, 0.5); /* Black at 50% opacity */
+}
+
+/* Fallback for older Safari / Firefox (custom styling) */
+body .gform_wrapper input[type="checkbox"]:checked::before,
+body .gform_wrapper input[type="radio"]:checked::before {
+  color: $color1 !important;
+  background-color: $color1 !important;
+  border-color: $color1 !important;
+}

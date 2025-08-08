@@ -1,23 +1,46 @@
 <?php
-$text_block = get_sub_field('text_block');
-$image_block = get_sub_field('image_block');
-$reverse_layout = get_sub_field('reverse_layout');
+$image_slider = get_sub_field('image_slider');
+$chapter = get_sub_field('chapter');
+$slider_text_block = get_sub_field('slider_text_block');
 ?>
-<section class="text_with_image">
-    <div class="container">
-        <div class="row<?= $reverse_layout ? ' reverse' : '' ?>">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-4">
-                <div class="text_with_image__text-container slide-left-on-scroll">
-                    <?= $text_block; ?>
-                </div>
-            </div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-6 p-0">
-                <div class="text_with_image__image-container slide-right-on-scroll">
-                    <img src="<?= $image_block['url']; ?>" alt="">
-                </div>
+
+<?php if ($image_slider || $chapter || $slider_text_block): ?>
+    <section class="text-slider">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <?php if ($image_slider): ?>
+                    <div class="col-12 col-lg-6 col-xl-5 p-0">
+                        <div class="text-slider__slider-container owl-carousel fade-in-on-scroll">
+                            <?php foreach ($image_slider as $slide): ?>
+                                <?php $image = $slide['repeater_slide']; ?>
+                                <?php if (!empty($image['url'])): ?>
+                                    <div class="text-slider__slide">
+                                        <img src="<?= $image['url']; ?>" alt="<?= $image['alt']; ?>" />
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($chapter || $slider_text_block): ?>
+                    <div class="col-12 col-lg-6 col-xl-5">
+                        <div class="text-slider__text-container">
+                            <?php if ($chapter): ?>
+                                <h5><?= $chapter; ?></h5>
+                            <?php endif; ?>
+
+                            <?php if ($slider_text_block): ?>
+                                <div class="text_field slide-right-on-scroll">
+                                    <?= $slider_text_block; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
             </div>
         </div>
-    </div>
-</section>
+    </section>
+<?php endif; ?>

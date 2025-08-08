@@ -1,0 +1,19 @@
+.title_block {
+  background-color: $color2;
+  padding: 70px 0px;
+  &__content-container {
+    display: flex;
+    justify-content: center;
+
+    h1 {
+      color: $white;
+      font-family: $font2;
+      font-weight: 100;
+
+      span {
+        color: $color1;
+        font-family: $font1;
+      }
+    }
+  }
+}
