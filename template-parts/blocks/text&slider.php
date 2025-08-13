@@ -5,7 +5,7 @@ $slider_text_block = get_sub_field('slider_text_block');
 ?>
 
 <?php if ($image_slider || $chapter || $slider_text_block): ?>
-    <section class="text-slider">
+    <section class="text-slider" id="<?= $chapter; ?>">
         <div class="container">
             <div class="row justify-content-center">
 

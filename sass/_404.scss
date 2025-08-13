@@ -1,3 +1,16 @@
 section.error-404 {
-    padding:5em 0;
+  padding: 5em 0;
+  background: $color2;
+  h1 {
+    color: $color1;
+  }
+  p {
+    color: white;
+  }
+  .buttons {
+    a {
+      background-color: $color1;
+      color: white;
+    }
+  }
 }

@@ -84,15 +84,21 @@
       // Left arrows sometimes look better with slight right adjustment
       margin-left: -1px;
     }
+    &:hover {
+      background-color: $color1;
+    }
   }
 
   .next-btn {
-    background-color: $color1;
+    background-color: $color2;
 
     // Optional: Fine-tune arrow positioning for visual balance
     svg {
       // Right arrows sometimes look better with slight left adjustment
       margin-left: 1px;
+    }
+    &:hover {
+      background-color: $color1;
     }
   }
 }

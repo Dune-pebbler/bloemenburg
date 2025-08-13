@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
 $logo = get_field('logo', 'option');
+$notification_banner = get_field('notification_banner', 'option');
 ?>
 
 <head>
@@ -16,14 +17,34 @@ $logo = get_field('logo', 'option');
         <?php wp_title(); ?>
     </title>
     <?php wp_head(); ?>
+
+
 </head>
 
 <body <?php body_class() ?>>
 
-    <div class="nav-logo">
-        <div class="nav-logo__container">
-            <img src="<?= $logo['url'] ?>" alt="<?= $logo['alt'] ?>">
+    <?php if ($notification_banner): ?>
+        <div class="notification-banner-wrapper">
+            <div class="notification-banner">
+                <div class="notification-banner__content">
+                    <?php
+                    // Repeat the text multiple times to fill the banner
+                    for ($i = 0; $i < 100; $i++) {
+                        echo '<span class="notification-banner__text">' . esc_html($notification_banner) . '</span>';
+                    }
+                    ?>
+                </div>
+            </div>
         </div>
+    <?php endif; ?>
+
+    <div class="nav-logo">
+        <a href="http://bloemenburg-bedrijfsunits.nl/">
+            <div class="nav-logo__container">
+                <img src="<?= $logo['url'] ?>" alt="<?= $logo['alt'] ?>">
+            </div>
+        </a>
+
     </div>
     <!-- Fixed Bottom-Right Navigation -->
     <nav class="bottom-nav">
@@ -41,7 +62,9 @@ $logo = get_field('logo', 'option');
             <div id="nav-items">
                 <div class="nav-logo-mobile">
                     <div class="nav-logo-mobile__container">
-                        <img src="<?= $logo['url'] ?>" alt="<?= $logo['alt'] ?>">
+                        <a href="http://bloemenburg-bedrijfsunits.nl/">
+                            <img src="<?= $logo['url'] ?>" alt="<?= $logo['alt'] ?>">
+                        </a>
                     </div>
                 </div>
                 <div id="cross">
@@ -60,55 +83,3 @@ $logo = get_field('logo', 'option');
     </nav>
 
     <main>
-        <script>
-            document.addEventListener('scroll', function () {
-                const logo = document.querySelector('.nav-logo');
-                if (window.scrollY > 50) { // adjust scroll distance if needed
-                    logo.classList.add('scrolled');
-                } else {
-                    logo.classList.remove('scrolled');
-                }
-            });
-
-            // Navigation hamburger menu functionality
-            document.addEventListener('DOMContentLoaded', function () {
-                const hamburger = document.querySelector('.hamburger');
-                const navItems = document.querySelector('#nav-items');
-                const cross = document.querySelector('#cross');
-                const body = document.body;
-
-                // Open menu when hamburger is clicked
-                if (hamburger) {
-                    hamburger.addEventListener('click', function () {
-                        navItems.classList.add('is-active');
-                        body.style.overflow = 'hidden'; // Prevent background scrolling
-                    });
-                }
-
-                // Close menu when cross is clicked
-                if (cross) {
-                    cross.addEventListener('click', function () {
-                        navItems.classList.remove('is-active');
-                        body.style.overflow = ''; // Restore scrolling
-                    });
-                }
-
-                // Close menu when clicking outside (optional)
-                if (navItems) {
-                    navItems.addEventListener('click', function (e) {
-                        if (e.target === navItems) {
-                            navItems.classList.remove('is-active');
-                            body.style.overflow = '';
-                        }
-                    });
-                }
-
-                // Close menu on escape key
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape' && navItems.classList.contains('is-active')) {
-                        navItems.classList.remove('is-active');
-                        body.style.overflow = '';
-                    }
-                });
-            });
-        </script>

@@ -113,7 +113,9 @@ function initializeTextSlider() {
       loop: true,
       nav: false,
       dots: true,
-      autoplay: true,
+      margin: 10, // explicitly set margin to 0
+      stagePadding: 0, // explicitly set stagePadding to 0
+      autoplay: false,
       autoplayTimeout: 5000,
       navText: [
         '<span class="owl-prev">‹</span>',
@@ -358,3 +360,77 @@ function initInView() {
     });
   }
 }
+
+// Logo scroll functionality
+function initLogoScroll() {
+  document.addEventListener("scroll", function () {
+    const logo = document.querySelector(".nav-logo");
+    if (window.scrollY > 50) {
+      logo.classList.add("scrolled");
+    } else {
+      logo.classList.remove("scrolled");
+    }
+  });
+}
+
+// Mobile navigation functionality
+function initMobileNavigation() {
+  const hamburger = document.querySelector(".hamburger");
+  const navItems = document.querySelector("#nav-items");
+  const cross = document.querySelector("#cross");
+  const body = document.body;
+
+  // Function to close mobile menu
+  function closeMobileMenu() {
+    navItems.classList.remove("is-active");
+    body.style.overflow = "";
+  }
+
+  // Open menu when hamburger is clicked
+  if (hamburger) {
+    hamburger.addEventListener("click", function () {
+      navItems.classList.add("is-active");
+      body.style.overflow = "hidden";
+    });
+  }
+
+  // Close menu when cross is clicked
+  if (cross) {
+    cross.addEventListener("click", function () {
+      closeMobileMenu();
+    });
+  }
+
+  // Close menu when clicking outside
+  if (navItems) {
+    navItems.addEventListener("click", function (e) {
+      if (e.target === navItems) {
+        closeMobileMenu();
+      }
+    });
+  }
+
+  // Close menu when any nav link is clicked
+  const navLinks = navItems.querySelectorAll("a");
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function () {
+      closeMobileMenu();
+    });
+  });
+
+  // Close menu on escape key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && navItems.classList.contains("is-active")) {
+      closeMobileMenu();
+    }
+  });
+}
+
+// Initialize all functions when DOM is ready
+function initNavigation() {
+  initLogoScroll();
+  initMobileNavigation();
+}
+
+// Call the initialization function when DOM is loaded
+document.addEventListener("DOMContentLoaded", initNavigation);

@@ -22,12 +22,18 @@
 }
 
 #gform_submit_button_1 {
-  background-color: $color1 !important;
+  background: $color1 !important;
   border-radius: 0px !important;
   font-family: $font2 !important;
-  font-size: 21px !important;
-  font-weight: 700 !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
   padding: 15px 22px !important;
+  transition: all ease 0.3s !important;
+
+  &:hover {
+    background: linear-gradient(135deg, #ba8a3c, #945915) !important;
+  }
   @media screen and (max-width: 768px) {
     font-weight: 16px !important;
   }

@@ -2,7 +2,7 @@
 $map = get_sub_field('map');
 $map_WYSIWYG = get_sub_field('map_WYSIWYG');
 ?>
-<section class="map">
+<section class="map" id="locatie">
     <div class="container-fluid">
         <div class="row fade-in-on-scroll">
             <div class="col-12 p-0">

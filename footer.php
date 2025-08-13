@@ -8,19 +8,19 @@ $social_repeater = get_field('socials', 'option');
 <footer>
   <div class="container">
     <div class="row fade-in-on-scroll">
-      <div class="col-12 offset-lg-4 col-lg-8">
-        <div class="footer__title-container">
-          <h2>Intresse?</h2>
+      <div class="col-12 offset-lg-5 col-lg-8">
+        <div class="footer__title-container" id="interesse">
+          <h2>Interesse?</h2>
         </div>
       </div>
     </div>
     <div class="row justify-content-center fade-in-on-scroll">
-      <div class="col-12 col-lg-4">
+      <div class="col-12 offset-lg-1 col-lg-4">
         <div class="footer__text-container">
           <?= $footer_txt_block; ?>
         </div>
       </div>
-      <div class="col-12 col-lg-4">
+      <div class="col-12 col-lg-3">
         <div class="footer__form-container">
           <?= $form_shortcode; ?>
         </div>
@@ -33,7 +33,7 @@ $social_repeater = get_field('socials', 'option');
       </div>
     </div>
     <div class="row fade-in-on-scroll">
-      <div class="col-12">
+      <div class="col-12 offset-lg-1">
         <div class="socials-container">
           <?php if (have_rows('socials', 'option')): ?>
             <ul class="socials-list">

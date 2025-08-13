@@ -1,6 +1,8 @@
 footer {
   background-color: $color2;
   padding: 70px 0px;
+  position: relative;
+  z-index: 11;
   @media screen and (max-width: 576px) {
     padding: 35px 0px;
   }
@@ -28,7 +30,7 @@ footer {
     }
     p {
       color: white;
-      font-size: 28px;
+      font-size: 22px;
       width: 400px;
       line-height: 38px;
       @media screen and (max-width: 576px) {
